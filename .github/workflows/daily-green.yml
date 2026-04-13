@@ -5,20 +5,24 @@ on:
     - cron: '30 4 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write   # ✅ VERY IMPORTANT
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Repo
+        uses: actions/checkout@v3
 
-      - name: Update file
+      - name: Make change
         run: echo "Updated on $(date)" >> green.txt
 
       - name: Commit & Push
         run: |
-          git config --global user.name "raghav884422"
-          git config --global user.email "yashumishra4422@gmail.com"
+          git config user.name "raghav884422"
+          git config user.email "yashumishra4422@gmail.com"
           git add .
           git commit -m "Daily auto commit" || echo "No changes"
           git push
