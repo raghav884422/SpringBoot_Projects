@@ -1,0 +1,5 @@
+package com.salesavvy.adminServiceImplementation;
+
+public class AdminBusinessService {
+
+}

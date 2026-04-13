@@ -1,0 +1,23 @@
+spring.application.name=otpAuthentication
+
+
+# connecting to database
+spring.datasource.url=jdbc:mysql://localhost:3306/rest
+spring.datasource.username=root
+spring.datasource.password=Raghav@123
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+
+
+# cofiguring the email
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=yashumishra4422@gmail.com
+spring.mail.password=nuwk anxt iyxh fcf
+
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+

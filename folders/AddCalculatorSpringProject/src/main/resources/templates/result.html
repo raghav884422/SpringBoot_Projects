@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>result</title>
+</head>
+
+<body>
+	<center>
+		<hr />
+		<p>Adddition result is: <span th:text="${sum}"></span></p>
+		<br />
+		<hr />
+		<h1>CALCULATOR APP</h1>
+		<form action="http://localhost:8080/api/calculate" method="get">
+			<label>A:</label><input type="text" name="a" />
+			<label>B:</label><input type="text" name="b" />
+			<input type="submit" value="calculate" />
+		</form>
+	</center>
+</body>
+
+</html>

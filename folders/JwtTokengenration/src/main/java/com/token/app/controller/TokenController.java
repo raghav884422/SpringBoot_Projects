@@ -1,0 +1,37 @@
+package com.token.app.controller;
+
+import java.util.Date;
+
+import javax.crypto.SecretKey;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+
+@RestController
+@RequestMapping("/api")
+public class TokenController {
+	private final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+	@GetMapping("/genrate")
+	public String genrateToken(@RequestParam String username,@RequestParam String role) {
+		JwtBuilder builder = Jwts.builder();
+		builder.setSubject(username);
+		builder.claim("ROLE", role);
+		builder.setIssuedAt(new Date());
+		builder.setExpiration(new Date(System.currentTimeMillis()+36000000));
+		builder.signWith(key);
+		String token = builder.compact();
+//		String token = Jwts.builder().setSubject(username).claim("ROLE", role).setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis()+3600000)).signWith(key).compact();
+		
+		
+		
+		return "Your JTM token is "+token;
+	}
+
+}

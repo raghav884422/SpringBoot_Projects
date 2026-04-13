@@ -1,0 +1,20 @@
+package com.SPringSecurity.app.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api")
+public class RestController1 {
+@GetMapping("/data")
+public Map<String,String> showData(){
+	Map<String, String> responce = new HashMap<>();
+	responce.put("message", "Hello");
+	responce.put("role", "user");
+	return responce;
+}
+}

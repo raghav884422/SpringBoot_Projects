@@ -1,0 +1,21 @@
+package com.salesavvy.app.service;
+
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+
+public interface CartServiceContract {
+	  void addToCart(int userId, int productId, int quantity);
+
+	    Map<String, Object> getCartItems(int userId);
+	  
+	    public void deleteCartItem(int userId, int productId);
+
+		public void updateCartItemQuantity(int user_id, int productId, int quantity);
+		public int getCartItemCount(int userId);
+
+	
+
+
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;com.constructorinjection.UsingPrimary.Laptop&apos; to &apos;unix&apos;&#x0D;&#x0A;- Original project: &apos;constructorInjectionUsingPrimary&apos;&#x0D;&#x0A;- Original element: &apos;com.constructorinjection.UsingPrimary.Laptop&apos;&#x0D;&#x0A;- Renamed element: &apos;com.constructorinjection.UsingPrimary.unix&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;Laptop&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.constructorinjection.UsingPrimary{Laptop.java[Laptop" matchStrategy="1" name="unix" qualified="false" references="true" similarDeclarations="false" stamp="1767701415204" textual="false" version="1.0"/>
+</session>

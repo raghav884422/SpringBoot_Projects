@@ -1,0 +1,10 @@
+package com.salesavvy.app.userrepositries;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.salesavvy.app.entiry.Order; // ✅ YOUR ENTITY
+
+@Repository
+public interface OrderRepository extends JpaRepository<Order, String> {
+}

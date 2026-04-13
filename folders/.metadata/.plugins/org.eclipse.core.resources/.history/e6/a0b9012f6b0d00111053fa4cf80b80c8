@@ -1,0 +1,5 @@
+package com.salesavvy.adminControllers;
+
+public class AdminProductController {
+
+}

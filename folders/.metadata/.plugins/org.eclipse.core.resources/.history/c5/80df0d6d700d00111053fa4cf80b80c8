@@ -1,0 +1,5 @@
+package com.salesavvy.adminService;
+
+public class AdminUserServiceContract {
+
+}

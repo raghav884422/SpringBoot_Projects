@@ -1,0 +1,81 @@
+package com.authenticationOtp.app.service;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Random;
+
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
+
+
+import com.authenticationOtp.app.entity.Otp;
+import com.authenticationOtp.app.entity.Users;
+import com.authenticationOtp.app.repo.OtpRepo;
+import com.authenticationOtp.app.repo.usersRepo;
+
+@Service
+public class userService {
+	usersRepo userepo;
+	JavaMailSender mailsender;
+	OtpRepo otpRepo;
+
+	public userService(usersRepo userepo, JavaMailSender mailSender, OtpRepo otpRepo) {
+		super();
+		this.userepo = userepo;
+		this.mailsender = mailSender;
+		this.otpRepo = otpRepo;
+	}
+
+	public boolean userSignUp(Users user) {
+		Users saveuser = userepo.save(user);
+		if (saveuser != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean userSignIn(String username, String passworld) {
+		Users user = userepo.findByUsername(username);
+		if (user != null) {
+			if (user.getPassword().endsWith(passworld)) {
+
+				int otp = new Random().nextInt(100000, 9999998);
+				System.out.println(otp);
+
+				Otp newOtp = new Otp(otp, LocalDateTime.now(), user);
+				otpRepo.save(newOtp);
+
+				String usermail = user.getEmail();
+//			  otp sending prosses
+				SimpleMailMessage message = new SimpleMailMessage();
+				message.setTo(usermail);
+				message.setSubject("gaand marane ka OTP");
+				message.setText("ap apni gaand marane se pahle ye otp daale: " + otp);
+
+				mailsender.send(message);
+
+				return true;
+			}
+		}
+		return false;
+	}
+public Users verifyOtp( int otp) {
+	Otp ref =otpRepo.findByOtpvalue(otp);
+	if(ref!=null&& otp==ref.getOtpvalue()) {
+		
+		Users user =userepo.findById(ref.getUser().getId()).orElse(null);
+		LocalDateTime otptime = ref.getCreateat();
+		LocalDateTime curenttime = LocalDateTime.now();
+		if(ChronoUnit.MINUTES.between(otptime, curenttime)<1) {
+			
+			return user;
+		} else {
+			otpRepo.delete(ref);
+			return null;
+		}
+	}
+	return null;
+}
+}

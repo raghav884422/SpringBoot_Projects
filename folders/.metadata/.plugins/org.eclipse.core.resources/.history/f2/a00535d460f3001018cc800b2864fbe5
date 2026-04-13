@@ -1,0 +1,5 @@
+package com.authenticationOtp.app.repo;
+
+public class OtpRepo {
+
+}

@@ -1,0 +1,11 @@
+package com.authenticationOtp.app.repo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.authenticationOtp.app.entity.otp;
+import java.util.List;
+
+
+public interface  OtpRepo extends JpaRepository<otp	, Integer> {
+public otp  findByOtpvalue(int otpvalue);
+}

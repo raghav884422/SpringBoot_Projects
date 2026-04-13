@@ -1,0 +1,8 @@
+package com.salesavvy.adminService;
+
+import com.salesavvy.app.entiry.User;
+
+public interface AdminUserServiceContract {
+	public User modifyUser(Integer userId, String username, String email, String role);
+	 public User getUserById(Integer userId);
+}

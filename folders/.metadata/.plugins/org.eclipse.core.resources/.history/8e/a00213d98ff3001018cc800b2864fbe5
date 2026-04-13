@@ -1,0 +1,5 @@
+package com.token.app.controller;
+
+public class TokenController {
+
+}

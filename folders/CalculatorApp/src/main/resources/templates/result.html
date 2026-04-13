@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Calculation Result</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #141e30, #243b55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.result-card {
+    background: white;
+    padding: 30px 40px;
+    width: 400px;
+    border-radius: 16px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+    text-align: center;
+    animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+.result-card h1 {
+    color: #243b55;
+    margin-bottom: 20px;
+}
+
+.result-box {
+    background: #f4f7fb;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.result-value {
+    font-size: 28px;
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.operation {
+    color: #555;
+    margin-top: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 12px;
+    margin-top: 10px;
+}
+
+button {
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.add { background: #4CAF50; }
+.sub { background: #f39c12; }
+.mul { background: #3498db; }
+.div { background: #e74c3c; }
+
+.back-btn {
+    margin-top: 15px;
+    background: #2c3e50;
+    width: 100%;
+}
+</style>
+</head>
+
+<body>
+
+<div class="result-card">
+
+    <h1>Calculation Result</h1>
+
+    <div class="result-box">
+        <div class="result-value" th:text="${result}">0</div>
+        <div class="operation" th:text="'Operation: ' + ${operation}">Operation</div>
+    </div>
+
+    <form action="/api/calculate" method="POST">
+        <input type="number" name="num1" th:value="${num1}" required>
+        <input type="number" name="num2" th:value="${num2}" required>
+
+        <div class="buttons">
+            <button class="add" type="submit" name="operation" value="add">Add</button>
+            <button class="sub" type="submit" name="operation" value="sub">Subtract</button>
+            <button class="mul" type="submit" name="operation" value="mul">Multiply</button>
+            <button class="div" type="submit" name="operation" value="div">Divide</button>
+        </div>
+
+		<button type="button" class="back-btn" onclick="window.location.href='/api/'">
+		    New Calculation
+		</button>
+
+        </button>
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+package com.cookieGenration.app.controller;
+
+import java.util.Date;
+
+import javax.crypto.SecretKey;
+
+import org.springframework.http.ResponseCookie;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@RestController
+@RequestMapping("/api")
+public class jwttokengenrationcontoller {
+	public final SecretKey SIGNIN_KEY = Keys.hmacShaKeyFor("raghavmishraisaverygoodboy123456789".getBytes());
+
+	@GetMapping("/genrate")
+
+	public String genrateCookie(@RequestParam String username, @RequestParam String role, HttpServletResponse res) {
+		String jwttoken = genrateToken(username, role);
+		ResponseCookie cookie = ResponseCookie.from("authToken", jwttoken).httpOnly(true).secure(false).path("/")
+				.maxAge(3600).build();
+		res.addHeader("Set-Cookie", cookie.toString());
+
+		return "JWT token is genrated as a cookie please check";
+
+	}
+
+	public String genrateToken(String username, String role) {
+		String token = Jwts.builder().setSubject(username).claim("role", role).setIssuedAt(new Date())
+				.setExpiration(new Date(System.currentTimeMillis() + 360000000)).signWith(SIGNIN_KEY).compact();
+		return token;
+	}
+	@GetMapping("/regenrate")
+	public String regenrateCokie(HttpServletRequest req) {
+
+	    Cookie[] cookies = req.getCookies();
+
+	    if (cookies == null) {
+	        return "No cookies found. Please login first.";
+	    }
+
+	    String jwtToken = null;
+
+	    for (Cookie c : cookies) {
+	        if ("authToken".equals(c.getName())) {
+	            jwtToken = c.getValue();
+	            break;
+	        }
+	    }
+
+	    if (jwtToken == null) {
+	        return "JWT cookie not found.";
+	    }
+
+	    String[] claims = regenrateClaimsFrom(jwtToken);
+
+	    return "Hello username is " + claims[0] + " and role is " + claims[1];
+	}
+
+		
+	public String[] regenrateClaimsFrom(String token) {
+
+	    Claims claims = Jwts.parserBuilder()
+	            .setSigningKey(SIGNIN_KEY)
+	            .build()
+	            .parseClaimsJws(token)
+	            .getBody();
+
+	    String arr[] = new String[2];
+	    arr[0] = claims.getSubject();
+	    arr[1] = claims.get("role", String.class);
+
+	    return arr;
+	}
+
+}

@@ -1,0 +1,26 @@
+package com.cookieGenration.app.controller;
+
+import javax.crypto.SecretKey;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.jsonwebtoken.security.Keys;
+
+@RestController
+@RequestMapping("/api")
+public class jwttokengenrationcontoller {
+    public final SecretKey SIGNIN_KEY = Keys.hmacShaKeyFor("raghavmishraisaverygoodboy123456789".getBytes());
+    
+    @GetMapping("/genrate")
+    
+    
+    
+    public String genrateCookie(String username,String role) {
+    	return "";
+
+    
+	
+	
+}

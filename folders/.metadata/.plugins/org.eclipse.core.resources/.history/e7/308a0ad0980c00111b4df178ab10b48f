@@ -1,0 +1,5 @@
+package com.salesavvy.app.entiry;
+
+public class Order {
+
+}

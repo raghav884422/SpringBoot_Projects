@@ -1,0 +1,54 @@
+package com.salesavvy.adminServiceImplementation;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+
+import com.salesavvy.adminService.AdminBusinessServiceContract;
+import com.salesavvy.app.entiry.Order;
+import com.salesavvy.app.userrepositries.OrderItemRepository;
+import com.salesavvy.app.userrepositries.OrderRepository;
+import com.salesavvy.app.userrepositries.ProductRepository;
+
+public class AdminBusinessService implements AdminBusinessServiceContract{
+     
+	 private final OrderRepository orderRepository;
+	    private final OrderItemRepository orderItemRepository;
+	    private final ProductRepository productRepository;
+	
+	
+	
+	
+	public AdminBusinessService(OrderRepository orderRepository, OrderItemRepository orderItemRepository,
+				ProductRepository productRepository) {
+			super();
+			this.orderRepository = orderRepository;
+			this.orderItemRepository = orderItemRepository;
+			this.productRepository = productRepository;
+		}
+
+	@Override
+	public Map<String, Object> calculateMonthlyBusiness(int month, int year) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> calculateDailyBusiness(LocalDate date) {
+	     List<Order> successfulOrders = orderRepository.findSuccessfulOrdersByMonthAndYear(month, year);
+	        return calculateBusinessMetrics(successfulOrders);
+	}
+
+	@Override
+	public Map<String, Object> calculateYearlyBusiness(int year) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> calculateOverallBusiness() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

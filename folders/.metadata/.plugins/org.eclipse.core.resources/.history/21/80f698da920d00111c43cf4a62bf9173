@@ -1,0 +1,48 @@
+package com.salesavvy.adminControllers;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.salesavvy.adminService.AdminUserServiceContract;
+import com.salesavvy.app.entiry.User;
+
+@RestController
+@RequestMapping("/admin/user")
+public class AdminUserController {
+
+    private final AdminUserServiceContract adminUserService;
+
+    public AdminUserController(AdminUserServiceContract adminUserService) {
+        this.adminUserService = adminUserService;
+    }
+
+    @GetMapping("/getbyid")
+    public ResponseEntity<?> getUserById(@RequestParam Integer userId) {
+        User user = adminUserService.getUserById(userId);
+        return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("/modify")
+    public ResponseEntity<?> modifyUser(@RequestBody Map<String, Object> body) {
+
+        User user = adminUserService.modifyUser(
+                (Integer) body.get("userId"),
+                (String) body.get("username"),
+                (String) body.get("email"),
+                (String) body.get("role")
+        );
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("userId", user.getUser_id());
+        response.put("username", user.getUsername());
+        response.put("email", user.getEmail());
+        response.put("role", user.getRole().name());
+        response.put("createdAt", user.getCreatedAt());
+        response.put("updatedAt", user.getUpdatedAt());
+
+        return ResponseEntity.ok(response);
+    }
+}

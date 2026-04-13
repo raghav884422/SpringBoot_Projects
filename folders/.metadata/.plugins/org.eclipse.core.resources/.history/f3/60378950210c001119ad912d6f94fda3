@@ -1,0 +1,76 @@
+package com.salesavvy.app.userrepositries;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.salesavvy.app.entiry.CartItem;
+
+import jakarta.transaction.Transactional;
+
+@Repository
+public interface CartRepositry extends JpaRepository<CartItem, Integer> {
+
+    // 1️⃣ Find cart item by user and product
+    @Query("""
+        SELECT c
+        FROM CartItem c
+        WHERE c.user.user_id = :userId
+          AND c.product.productId = :productId
+    """)
+    Optional<CartItem> findByUserAndProduct(
+            @Param("userId") int userId,
+            @Param("productId") int productId
+    );
+
+    // 2️⃣ Count total quantity of items in user's cart
+    @Query("""
+        SELECT COALESCE(SUM(c.quantity), 0)
+        FROM CartItem c
+        WHERE c.user.user_id = :userId
+    """)
+    int countTotalItems(@Param("userId") int userId);
+
+    // 3️⃣ Fetch cart items with product + image (cart page)
+    @Query("""
+        SELECT DISTINCT c
+        FROM CartItem c
+        JOIN FETCH c.product p
+        LEFT JOIN FETCH p.productImages
+        WHERE c.user.user_id = :userId
+    """)
+    List<CartItem> findCartItemsWithProductDetails(
+            @Param("userId") int userId
+    );
+
+    // 4️⃣ Update quantity of a cart item
+    @Modifying
+    @Transactional
+    @Query("""
+        UPDATE CartItem c
+        SET c.quantity = :quantity
+        WHERE c.id = :cartItemId
+    """)
+    void updateCartItemQuantity(
+            @Param("cartItemId") int cartItemId,
+            @Param("quantity") int quantity
+    );
+
+    // 5️⃣ Delete product from cart
+    @Modifying
+    @Transactional
+    @Query("""
+        DELETE FROM CartItem c
+        WHERE c.user.user_id = :userId
+          AND c.product.productId = :productId
+    """)
+    void deleteCartItem(
+            @Param("userId") int userId,
+            @Param("productId") int productId
+    );
+}

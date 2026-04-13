@@ -1,0 +1,13 @@
+package com.cokkies.app;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class CokiesGenrationApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(CokiesGenrationApplication.class, args);
+	}
+
+}

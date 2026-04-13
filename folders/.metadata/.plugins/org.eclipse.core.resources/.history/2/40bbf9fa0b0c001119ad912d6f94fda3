@@ -1,0 +1,51 @@
+package com.salesavvy.app.serviceImplementation;
+
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.salesavvy.app.entiry.CartItem;
+import com.salesavvy.app.entiry.Product;
+import com.salesavvy.app.entiry.User;
+import com.salesavvy.app.service.CartServiceContract;
+import com.salesavvy.app.userrepositries.CartRepositry;
+import com.salesavvy.app.userrepositries.ProductRepository;
+import com.salesavvy.app.userrepositries.UserReopsitory;
+
+@Service
+public class CartService implements CartServiceContract {
+
+    private final UserReopsitory userRepository;
+    private final ProductRepository productRepository;
+    private final CartRepositry cartRepository;
+
+    public CartService(UserReopsitory userRepository,
+                       ProductRepository productRepository,
+                       CartRepositry cartRepository) {
+        this.userRepository = userRepository;
+        this.productRepository = productRepository;
+        this.cartRepository = cartRepository;
+   
+    }
+    public void addToCart(int userId, int productId, int quantity) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Product not found with ID: " + productId));
+
+        // Fetch cart item for this userId and productId
+        Optional<CartItem> existingItem = cartRepository.findByUserAndProduct(userId, productId);
+
+        if (existingItem.isPresent()) {
+            CartItem cartItem = existingItem.get();
+            cartItem.setQuantity(cartItem.getQuantity() + quantity);
+            cartRepository.save(cartItem);
+        } else {
+            CartItem newItem = new CartItem(user, product, quantity);
+            cartRepository.save(newItem);
+        }
+    }
+}
+
+

@@ -1,0 +1,24 @@
+name: Daily Green Commit
+
+on:
+  schedule:
+    - cron: '30 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Update file
+        run: echo "Updated on $(date)" >> green.txt
+
+      - name: Commit & Push
+        run: |
+          git config --global user.name "raghav884422"
+          git config --global user.email "yashumishra4422@gmail.com"
+          git add .
+          git commit -m "Daily auto commit" || echo "No changes"
+          git push

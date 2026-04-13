@@ -1,0 +1,42 @@
+package com.salesavvy.adminControllers;
+
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.salesavvy.adminService.AdminProductServiceContract;
+import com.salesavvy.app.entiry.Product;
+
+@RestController
+@RequestMapping("/admin/products")
+public class AdminProductController {
+
+    private final AdminProductServiceContract adminProductService;
+
+    public AdminProductController(AdminProductServiceContract adminProductService) {
+        this.adminProductService = adminProductService;
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addProduct(@RequestBody Map<String, Object> body) {
+
+        Product product = adminProductService.addProductWithImage(
+                (String) body.get("name"),
+                (String) body.get("description"),
+                Double.valueOf(body.get("price").toString()),
+                (Integer) body.get("stock"),
+                (Integer) body.get("categoryId"),
+                (String) body.get("imageUrl")
+        );
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(product);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteProduct(@RequestBody Map<String, Integer> body) {
+        adminProductService.deleteProduct(body.get("productId"));
+        return ResponseEntity.ok("Product deleted successfully");
+    }
+}
